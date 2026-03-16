@@ -54,7 +54,7 @@ export default function ChatWindow() {
             {MODELS.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
           </select>
           <div style={{ marginTop:'8px', padding:'8px 10px', borderRadius:'8px', background:'rgba(34,197,94,0.08)', border:'1px solid rgba(34,197,94,0.2)' }}>
-            <p style={{ fontSize:'11px', color:'#4ade80', lineHeight:1.5 }}>✅ Free via Puter.js — no API key</p>
+            <p style={{ fontSize:'11px', color:'#4ade80', lineHeight:1.5 }}></p>
           </div>
         </div>
 
