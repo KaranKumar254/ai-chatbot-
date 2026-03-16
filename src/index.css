@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0f0f13;
+  --surface: #16161e;
+  --surface2: #1e1e2a;
+  --border: rgba(255,255,255,0.07);
+  --accent: #7c6af7;
+  --accent2: #a78bfa;
+  --text: #e8e8f0;
+  --muted: #6b6b80;
+  --user-bubble: linear-gradient(135deg, #7c6af7, #a78bfa);
+  --ai-bubble: #1e1e2a;
+  --danger: #f87171;
+  --radius: 18px;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+button { cursor: pointer; font-family: inherit; }
+input, textarea { font-family: inherit; }
+code { font-family: 'Courier New', monospace; font-size: 13px; }
