@@ -1,20 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useChat } from '../hooks/useChat'
 import MessageList from './MessageList'
 import InputBar from './InputBar'
 import SystemPromptBar from './SystemPromptBar'
 import { MODELS } from '../constants/models'
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', handler)
+    return () => window.removeEventListener('resize', handler)
+  }, [])
+  return isMobile
+}
+
 export default function ChatWindow() {
   const { messages, isLoading, error, systemPrompt, setSystemPrompt, selectedModel, setSelectedModel, send, clear } = useChat()
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const isMobile = window.innerWidth < 768
+  const isMobile = useIsMobile()
 
   return (
     <div style={{ display:'flex', height:'100vh', width:'100vw', background:'#0f0f13', overflow:'hidden', fontFamily:'system-ui', position:'relative' }}>
 
       {/* Mobile backdrop */}
-      {sidebarOpen && (
+      {isMobile && sidebarOpen && (
         <div onClick={() => setSidebarOpen(false)}
           style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.6)', zIndex:40 }} />
       )}
@@ -28,15 +38,16 @@ export default function ChatWindow() {
         top:0, left: isMobile ? (sidebarOpen ? 0 : '-280px') : 0,
         height:'100vh', zIndex:50,
         transition:'left 0.28s cubic-bezier(0.4,0,0.2,1)',
+        overflowY: 'auto',
       }}>
 
-        {/* Logo */}
+        {/* Logo + close */}
         <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'24px', paddingLeft:'4px' }}>
           <div style={{ width:'32px', height:'32px', borderRadius:'10px', background:'linear-gradient(135deg,#7c6af7,#a78bfa)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'16px' }}>✦</div>
           <span style={{ fontWeight:600, fontSize:'16px', color:'#e8e8f0', flex:1 }}>AI Chat</span>
           {isMobile && (
             <button onClick={() => setSidebarOpen(false)}
-              style={{ background:'none', border:'none', color:'#6b6b80', fontSize:'20px', cursor:'pointer', padding:'0 4px' }}>✕</button>
+              style={{ background:'none', border:'none', color:'#6b6b80', fontSize:'22px', cursor:'pointer', padding:'0 4px', lineHeight:1 }}>✕</button>
           )}
         </div>
 
@@ -54,7 +65,7 @@ export default function ChatWindow() {
             {MODELS.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
           </select>
           <div style={{ marginTop:'8px', padding:'8px 10px', borderRadius:'8px', background:'rgba(34,197,94,0.08)', border:'1px solid rgba(34,197,94,0.2)' }}>
-            <p style={{ fontSize:'11px', color:'#4ade80', lineHeight:1.5 }}></p>
+            <p style={{ fontSize:'11px', color:'#4ade80', lineHeight:1.5 }}>✅ Free via Puter.js — no API key</p>
           </div>
         </div>
 
@@ -89,7 +100,7 @@ export default function ChatWindow() {
         <header style={{ padding:'12px 16px', borderBottom:'1px solid rgba(255,255,255,0.07)', display:'flex', alignItems:'center', gap:'10px', background:'#16161e', flexShrink:0 }}>
           {isMobile && (
             <button onClick={() => setSidebarOpen(true)}
-              style={{ background:'none', border:'none', color:'#e8e8f0', fontSize:'20px', cursor:'pointer', padding:'4px', marginRight:'2px' }}>☰</button>
+              style={{ background:'none', border:'none', color:'#e8e8f0', fontSize:'22px', cursor:'pointer', padding:'4px', marginRight:'2px', lineHeight:1 }}>☰</button>
           )}
           <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:'#22c55e', boxShadow:'0 0 6px #22c55e', flexShrink:0 }} />
           <span style={{ fontSize:'14px', fontWeight:600, color:'#e8e8f0', flex:1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>General Assistant</span>
@@ -111,4 +122,4 @@ export default function ChatWindow() {
       </main>
     </div>
   )
-              }
+                       }
